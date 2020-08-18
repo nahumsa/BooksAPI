@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"net/http"
 
@@ -17,9 +18,16 @@ const (
 )
 
 func main() {
+	reset := flag.Bool("reset", false, "true if you want to reset your database")
+	flag.Parse()
+
 	// Database
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s sslmode=disable", host, port, user, password)
-	must(books.Reset("postgres", psqlInfo, dbname))
+
+	if *reset {
+		fmt.Println("DB Reseted.")
+		must(books.Reset("postgres", psqlInfo, dbname))
+	}
 
 	psqlInfo = fmt.Sprintf("%s dbname=%s", psqlInfo, dbname)
 	must(books.Migrate("postgres", psqlInfo))
