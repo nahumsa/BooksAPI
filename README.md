@@ -11,6 +11,6 @@ Todo:
 - [x] Add a flag to reset the database
 - [ ] Add books to the database
 - [ ] Delete books
-- [ ] Query all books
+- [x] Query all books
 - [ ] Query selected author
 - [ ] Query Book title

@@ -24,6 +24,30 @@ func (db *DataBase) Close() error {
 	return db.db.Close()
 }
 
+// AllBooks returns all books on the database
+func (db *DataBase) AllBooks() ([]Book, error) {
+	rows, err := db.db.Query("SELECT title FROM book")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var ret []Book
+	for rows.Next() {
+		var b Book
+		if err := rows.Scan(&b.Title); err != nil {
+			return nil, err
+		}
+		ret = append(ret, b)
+
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return ret, nil
+}
+
 // Open Opens the database and returns a pointer to the database
 func Open(driverName, dataSource string) (*DataBase, error) {
 	db, err := sql.Open(driverName, dataSource)

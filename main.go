@@ -3,10 +3,10 @@ package main
 import (
 	"flag"
 	"fmt"
-	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/nahumsa/RAPI/books"
+	"github.com/nahumsa/BooksAPI/books"
+	"github.com/nahumsa/BooksAPI/routers"
 )
 
 const (
@@ -38,9 +38,13 @@ func main() {
 
 	// RestAPI
 	r := gin.Default()
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"data": "Hello World"})
-	})
+
+	// r.GET("/", func(c *gin.Context) {
+	// 	c.JSON(http.StatusOK, gin.H{"data": "Hello World"})
+	// })
+
+	r.GET("/books", routers.FindBooks)
+
 	r.Run()
 }
 
