@@ -5,11 +5,12 @@ This is an REST API that is constructed to read a database of books. This is bas
 For the first time you run, use the `-reset` flag.
 
 Todo:
-[X] Create database
-[X] Migrate database
-[X] Add a flag to reset the database
-[ ] Add books to the database
-[ ] Delete books
-[ ] Query all books
-[ ] Query selected author
-[ ] Query Book title
+
+- [x] Create database
+- [x] Migrate database
+- [x] Add a flag to reset the database
+- [ ] Add books to the database
+- [ ] Delete books
+- [ ] Query all books
+- [ ] Query selected author
+- [ ] Query Book title
