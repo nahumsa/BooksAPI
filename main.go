@@ -32,19 +32,11 @@ func main() {
 	psqlInfo = fmt.Sprintf("%s dbname=%s", psqlInfo, dbname)
 	must(books.Migrate("postgres", psqlInfo))
 
-	db, err := books.Open("postgres", psqlInfo)
-	must(err)
-	defer db.Close()
-
 	// RestAPI
 	r := gin.Default()
 
-	// r.GET("/", func(c *gin.Context) {
-	// 	c.JSON(http.StatusOK, gin.H{"data": "Hello World"})
-	// })
-
 	r.GET("/books", routers.FindBooks)
-
+	r.POST("/books", routers.CreateBook)
 	r.Run()
 }
 

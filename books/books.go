@@ -2,6 +2,7 @@ package books
 
 import (
 	"database/sql"
+	"fmt"
 
 	// Import for running
 	_ "github.com/lib/pq"
@@ -26,7 +27,7 @@ func (db *DataBase) Close() error {
 
 // AllBooks returns all books on the database
 func (db *DataBase) AllBooks() ([]Book, error) {
-	rows, err := db.db.Query("SELECT title FROM book")
+	rows, err := db.db.Query("SELECT title, author FROM book")
 	if err != nil {
 		return nil, err
 	}
@@ -35,9 +36,10 @@ func (db *DataBase) AllBooks() ([]Book, error) {
 	var ret []Book
 	for rows.Next() {
 		var b Book
-		if err := rows.Scan(&b.Title); err != nil {
+		if err := rows.Scan(&b.Title, &b.Author); err != nil {
 			return nil, err
 		}
+		fmt.Println(b)
 		ret = append(ret, b)
 
 	}
@@ -46,6 +48,20 @@ func (db *DataBase) AllBooks() ([]Book, error) {
 	}
 
 	return ret, nil
+}
+
+// Add adds a input to the database
+func (db *DataBase) Add(b Book) error {
+	_, err := insertBook(db.db, b)
+	return err
+}
+
+func insertBook(db *sql.DB, b Book) (int, error) {
+	statement := `INSERT INTO book (title, author) 
+				  VALUES ($1,$2) RETURNING id`
+	var id int
+	err := db.QueryRow(statement, b.Title, b.Author).Scan(&id)
+	return id, err
 }
 
 // Open Opens the database and returns a pointer to the database
@@ -74,10 +90,10 @@ func Migrate(driverName, dataSource string) error {
 func createBookTable(db *sql.DB) error {
 	statement := `
 	CREATE TABLE IF NOT EXISTS book (
-		id INT NOT NULL,
+		id SERIAL,
 		title VARCHAR(255) NOT NULL,
 		author VARCHAR(255) NOT NULL
-	)`
+	);`
 	_, err := db.Exec(statement)
 	return err
 }
