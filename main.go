@@ -37,6 +37,7 @@ func main() {
 
 	r.GET("/books", routers.FindBooks)
 	r.POST("/books", routers.CreateBook)
+	r.GET("/books/:id", routers.FindOneBook)
 	r.Run()
 }
 

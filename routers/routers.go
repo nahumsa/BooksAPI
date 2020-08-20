@@ -73,3 +73,23 @@ func CreateBook(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": book})
 }
+
+// FindOneBook finds a book given an id
+func FindOneBook(c *gin.Context) {
+
+	psqlInfo := dbInfo()
+	db, err := books.Open("postgres", psqlInfo)
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+
+	book, err := db.FindBook(c.Param("id"))
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": book})
+}

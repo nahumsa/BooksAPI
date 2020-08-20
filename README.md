@@ -12,5 +12,6 @@ Todo:
 - [x] Add books to the database
 - [ ] Delete books
 - [x] Query all books
+- [x] Query book id
 - [ ] Query selected author
 - [ ] Query Book title

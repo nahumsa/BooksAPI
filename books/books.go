@@ -2,6 +2,7 @@ package books
 
 import (
 	"database/sql"
+	"strconv"
 
 	// Import for running
 	_ "github.com/lib/pq"
@@ -46,6 +47,22 @@ func (db *DataBase) AllBooks() ([]Book, error) {
 	}
 
 	return ret, nil
+}
+
+// FindBook returns a book from an id
+func (db *DataBase) FindBook(id string) (Book, error) {
+
+	b, err := findID(db.db, id)
+	return b, err
+}
+
+func findID(db *sql.DB, id string) (Book, error) {
+	statement := `SELECT title, author FROM book
+				  WHERE id=$1`
+	var b Book
+	err := db.QueryRow(statement, id).Scan(&b.Title, &b.Author)
+	b.ID, _ = strconv.Atoi(id)
+	return b, err
 }
 
 // Add adds a input to the database
