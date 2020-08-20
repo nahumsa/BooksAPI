@@ -17,6 +17,8 @@ const (
 	dbname   = "books"
 )
 
+// dbInfo return a string that gives a route
+// for the database.
 func dbInfo() string {
 	PsqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s sslmode=disable", host, port, user, password)
 	PsqlInfo = fmt.Sprintf("%s dbname=%s", PsqlInfo, dbname)
@@ -58,14 +60,16 @@ func CreateBook(c *gin.Context) {
 	}
 	book := books.Book{Title: input.Title, Author: input.Author}
 
-	PsqlInfo := dbInfo()
-	db, err := books.Open("postgres", PsqlInfo)
+	psqlInfo := dbInfo()
+	db, err := books.Open("postgres", psqlInfo)
 	if err != nil {
 		panic(err)
 	}
 	defer db.Close()
 
-	db.Add(book)
+	// Add book and get its id
+	id, err := db.Add(book)
+	book.ID = id
 
 	c.JSON(http.StatusOK, gin.H{"data": book})
 }

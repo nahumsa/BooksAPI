@@ -9,7 +9,7 @@ Todo:
 - [x] Create database
 - [x] Migrate database
 - [x] Add a flag to reset the database
-- [ ] Add books to the database
+- [x] Add books to the database
 - [ ] Delete books
 - [x] Query all books
 - [ ] Query selected author

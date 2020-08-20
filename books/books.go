@@ -2,7 +2,6 @@ package books
 
 import (
 	"database/sql"
-	"fmt"
 
 	// Import for running
 	_ "github.com/lib/pq"
@@ -27,7 +26,7 @@ func (db *DataBase) Close() error {
 
 // AllBooks returns all books on the database
 func (db *DataBase) AllBooks() ([]Book, error) {
-	rows, err := db.db.Query("SELECT title, author FROM book")
+	rows, err := db.db.Query("SELECT id, title, author FROM book")
 	if err != nil {
 		return nil, err
 	}
@@ -36,10 +35,9 @@ func (db *DataBase) AllBooks() ([]Book, error) {
 	var ret []Book
 	for rows.Next() {
 		var b Book
-		if err := rows.Scan(&b.Title, &b.Author); err != nil {
+		if err := rows.Scan(&b.ID, &b.Title, &b.Author); err != nil {
 			return nil, err
 		}
-		fmt.Println(b)
 		ret = append(ret, b)
 
 	}
@@ -51,9 +49,9 @@ func (db *DataBase) AllBooks() ([]Book, error) {
 }
 
 // Add adds a input to the database
-func (db *DataBase) Add(b Book) error {
-	_, err := insertBook(db.db, b)
-	return err
+func (db *DataBase) Add(b Book) (int, error) {
+	id, err := insertBook(db.db, b)
+	return id, err
 }
 
 func insertBook(db *sql.DB, b Book) (int, error) {
@@ -90,7 +88,7 @@ func Migrate(driverName, dataSource string) error {
 func createBookTable(db *sql.DB) error {
 	statement := `
 	CREATE TABLE IF NOT EXISTS book (
-		id SERIAL,
+		id SERIAL PRIMARY KEY,
 		title VARCHAR(255) NOT NULL,
 		author VARCHAR(255) NOT NULL
 	);`
