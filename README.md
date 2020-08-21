@@ -14,7 +14,7 @@ Todo:
 - [x] Migrate database
 - [x] Add a flag to reset the database
 - [x] Add books to the database
-- [ ] Delete books
+- [x] Delete books
 - [x] Query all books
 - [x] Query book id
 - [ ] Query selected author

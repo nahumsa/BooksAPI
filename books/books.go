@@ -51,7 +51,6 @@ func (db *DataBase) AllBooks() ([]Book, error) {
 
 // FindBook returns a book from an id
 func (db *DataBase) FindBook(id string) (Book, error) {
-
 	b, err := findID(db.db, id)
 	return b, err
 }
@@ -77,6 +76,18 @@ func insertBook(db *sql.DB, b Book) (int, error) {
 	var id int
 	err := db.QueryRow(statement, b.Title, b.Author).Scan(&id)
 	return id, err
+}
+
+// DeleteBook deletes a book entry given an id
+func (db *DataBase) DeleteBook(b Book) error {
+	return delete(db.db, b.ID)
+}
+
+func delete(db *sql.DB, id int) error {
+	statement := `DELETE FROM book
+				  WHERE id=$1`
+	err := db.QueryRow(statement, id).Scan()
+	return err
 }
 
 // Open Opens the database and returns a pointer to the database

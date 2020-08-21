@@ -93,3 +93,22 @@ func FindOneBook(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": book})
 }
+
+// DeleteBook deletes a single book
+func DeleteBook(c *gin.Context) {
+	psqlInfo := dbInfo()
+	db, err := books.Open("postgres", psqlInfo)
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+
+	book, err := db.FindBook(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
+		return
+	}
+	db.DeleteBook(book)
+
+	c.JSON(http.StatusOK, gin.H{"data": true})
+}
