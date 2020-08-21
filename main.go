@@ -37,9 +37,9 @@ func main() {
 
 	r.GET("/books", routers.FindBooks)
 	r.POST("/books", routers.CreateBook)
-	r.GET("/id/:id", routers.FindOneBook)
-	r.DELETE("/id/:id", routers.DeleteBook)
-	r.GET("/author/:author", routers.FindAuthor)
+	r.GET("/books/id/:id", routers.FindOneBook)
+	r.DELETE("/books/id/:id", routers.DeleteBook)
+	r.GET("/books/author/:author", routers.FindAuthor)
 
 	r.Run()
 }
