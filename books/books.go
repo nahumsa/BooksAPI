@@ -2,6 +2,7 @@ package books
 
 import (
 	"database/sql"
+	"fmt"
 	"strconv"
 
 	// Import for running
@@ -62,6 +63,34 @@ func findID(db *sql.DB, id string) (Book, error) {
 	err := db.QueryRow(statement, id).Scan(&b.Title, &b.Author)
 	b.ID, _ = strconv.Atoi(id)
 	return b, err
+}
+
+// FindAuthor adds a input to the database
+func (db *DataBase) FindAuthor(author string) ([]Book, error) {
+	fmt.Println(author)
+	statement := `SELECT id, title, author FROM book
+				  WHERE author=$1`
+	rows, err := db.db.Query(statement, author)
+
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var ret []Book
+	for rows.Next() {
+		var b Book
+		if err := rows.Scan(&b.ID, &b.Title, &b.Author); err != nil {
+			return nil, err
+		}
+		ret = append(ret, b)
+
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return ret, nil
 }
 
 // Add adds a input to the database

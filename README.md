@@ -17,5 +17,5 @@ Todo:
 - [x] Delete books
 - [x] Query all books
 - [x] Query book id
-- [ ] Query selected author
+- [x] Query selected author
 - [ ] Query Book title
