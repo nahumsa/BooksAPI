@@ -1,0 +1,34 @@
+<!--index.html-->
+
+<!--Embed the header.html template at this location-->
+{{ template "header.html" .}}
+
+  <h1>Books API!</h1>
+  <p>
+
+    <section class="All books">
+      <form action= "/books">
+        <input type="submit" value="Click for all books">        
+      </form>
+      <br>
+    </section>
+
+    <div id="center">
+      <input type="text" id="id" placeholder="Book ID">
+      <button onclick="location.href='books/id/' + document.getElementById('id').value" id="connect">Send</button>
+    </div>    
+    <br>    
+    
+    <section class="Send Title">
+      <div id="center">
+        <input type="text" id="author" placeholder="author">
+        
+        <button onclick="location.href='books/author/' + document.getElementById('author').value" id="connect">
+          Send
+        </button>
+      
+      </div>    
+    </section>  
+  </p>
+<!--Embed the footer.html template at this location-->
+{{ template "footer.html" .}}

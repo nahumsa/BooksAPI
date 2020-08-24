@@ -19,3 +19,9 @@ Todo:
 - [x] Query book id
 - [x] Query selected author
 - [ ] Query Book title
+- [x] Create a frontend
+    - [x] Show all books
+    - [ ] Create a book
+    - [x] Find a book using the ID
+    - [ ] Delete a book using the ID
+    - [x] Find a book by the Author

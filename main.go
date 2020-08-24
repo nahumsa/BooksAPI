@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/nahumsa/BooksAPI/books"
@@ -34,6 +35,26 @@ func main() {
 
 	// RestAPI
 	r := gin.Default()
+
+	r.LoadHTMLGlob("template/*")
+
+	//
+	r.GET("/", func(c *gin.Context) {
+
+		// Call the HTML method of the Context to render a template
+		c.HTML(
+			// Set the HTTP status to 200 (OK)
+			http.StatusOK,
+			// Use the index.html template
+			"index.html",
+			// Pass the data that the page uses (in this case, 'title')
+			gin.H{
+				"title": "Books API",
+			},
+		)
+
+	})
+	//
 
 	r.GET("/books", routers.FindBooks)
 	r.POST("/books", routers.CreateBook)
