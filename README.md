@@ -13,7 +13,9 @@ All tests were made on postman and are shared on this [link](https://app.getpost
 
 
 
-Todo:
+## Todo:
+
+Things that I plan to implement on the future.
 
 - [x] Create database
 - [x] Migrate database
