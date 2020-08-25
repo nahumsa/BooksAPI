@@ -18,17 +18,22 @@
       <button onclick="location.href='books/id/' + document.getElementById('id').value" id="connect">Send</button>
     </div>    
     <br>    
-    
     <section class="Send Title">
       <div id="center">
-        <input type="text" id="author" placeholder="author">
-        
-        <button onclick="location.href='books/author/' + document.getElementById('author').value" id="connect">
+        <input type="text" id="author1" placeholder="author">        
+        <button onclick="location.href='books/author/' + document.getElementById('author1').value" id="connect">
           Send
-        </button>
-      
+        </button>      
       </div>    
-    </section>  
+    </section>      
+
+    <br><br><br>
+    <h2>Adding book</h2>
+    <form method="post" action="/books">
+      <p><label>Title:<input type=text name="title"></label></p>
+      <p><label>Author:<input type=text name="author"></label></p>
+      <p><input type=submit value="Submit book"></p>
+    </form>
   </p>
 <!--Embed the footer.html template at this location-->
 {{ template "footer.html" .}}

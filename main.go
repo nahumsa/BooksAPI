@@ -38,7 +38,6 @@ func main() {
 
 	r.LoadHTMLGlob("template/*")
 
-	//
 	r.GET("/", func(c *gin.Context) {
 
 		// Call the HTML method of the Context to render a template
@@ -54,7 +53,6 @@ func main() {
 		)
 
 	})
-	//
 
 	r.GET("/books", routers.FindBooks)
 	r.POST("/books", routers.CreateBook)
