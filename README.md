@@ -1,6 +1,7 @@
 # Books API using golang
 
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/a4e37324ec5fd722f252)
+[![Documentation](https://godoc.org/github.com/nahumsa/BooksAPI?status.svg)](https://godoc.org/github.com/nahumsa/BooksAPI)
 
 ## Introduction
 This is an REST API that is constructed to read a database of books. This is based on the article from [Rahman Fadhil](https://blog.logrocket.com/how-to-build-a-rest-api-with-golang-using-gin-and-gorm/), where I adapted the implementation to use PostgreSQL. I also made a front end in order to search for books from a given author or a given id.
