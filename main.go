@@ -41,7 +41,7 @@ func setupRouter() *gin.Engine {
 	router.GET("/books/id/:id", routers.FindOneBook)
 	router.DELETE("/books/id/:id", routers.DeleteBook)
 	router.GET("/books/author/:author", routers.FindAuthor)
-	return r
+	return router
 
 }
 
