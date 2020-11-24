@@ -105,7 +105,6 @@ func FindBooks(c *gin.Context) {
 	defer db.Close()
 
 	book, err := db.AllBooks()
-
 	if err != nil {
 		panic(err)
 	}
@@ -133,8 +132,8 @@ func FindAuthor(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": b})
 }
 
-// Homepage displays the home
-func Homepage(c *gin.Context) {
+// HomePage displays the home
+func HomePage(c *gin.Context) {
 	// Call the HTML method of the Context to render a template
 	c.HTML(
 		// Set the HTTP status to 200 (OK)

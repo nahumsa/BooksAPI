@@ -9,6 +9,11 @@ import (
 	_ "github.com/lib/pq"
 )
 
+// AllBooks is a collection of all books
+type AllBooks struct {
+	books []Book
+}
+
 // Book struct with ID, Title and Author
 type Book struct {
 	ID     int    `json:"id"`

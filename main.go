@@ -18,6 +18,33 @@ const (
 	dbname   = "books"
 )
 
+// setupRouter creates the routing of the Books API
+func setupRouter() *gin.Engine {
+	router := gin.Default()
+
+	router.LoadHTMLGlob("template/*")
+
+	router.GET("/", func(c *gin.Context) {
+
+		c.HTML(
+			http.StatusOK,
+			"index.html",
+			gin.H{
+				"title": "Books API",
+			},
+		)
+
+	})
+
+	router.GET("/books", routers.FindBooks)
+	router.POST("/books", routers.CreateBook)
+	router.GET("/books/id/:id", routers.FindOneBook)
+	router.DELETE("/books/id/:id", routers.DeleteBook)
+	router.GET("/books/author/:author", routers.FindAuthor)
+	return r
+
+}
+
 func main() {
 	reset := flag.Bool("reset", false, "true if you want to reset your database")
 	flag.Parse()
@@ -34,32 +61,7 @@ func main() {
 	must(books.Migrate("postgres", psqlInfo))
 
 	// RestAPI
-	r := gin.Default()
-
-	r.LoadHTMLGlob("template/*")
-
-	r.GET("/", func(c *gin.Context) {
-
-		// Call the HTML method of the Context to render a template
-		c.HTML(
-			// Set the HTTP status to 200 (OK)
-			http.StatusOK,
-			// Use the index.html template
-			"index.html",
-			// Pass the data that the page uses (in this case, 'title')
-			gin.H{
-				"title": "Books API",
-			},
-		)
-
-	})
-
-	r.GET("/books", routers.FindBooks)
-	r.POST("/books", routers.CreateBook)
-	r.GET("/books/id/:id", routers.FindOneBook)
-	r.DELETE("/books/id/:id", routers.DeleteBook)
-	r.GET("/books/author/:author", routers.FindAuthor)
-
+	r := setupRouter()
 	r.Run()
 }
 
