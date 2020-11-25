@@ -11,12 +11,50 @@ import (
 )
 
 const (
-	host     = "localhost"
-	port     = 5432
-	user     = "postgres"
-	password = "7894561230"
-	dbname   = "books"
+	host       = "localhost"
+	port       = 5432
+	user       = "postgres"
+	password   = "7894561230"
+	dbname     = "books"
+	dbnameTest = "test"
 )
+
+func main() {
+	reset := flag.Bool("reset", false, "true if you want to reset your database")
+
+	flag.Parse()
+
+	setupDatabase(*reset)
+
+	r := setupRouter()
+
+	r.Run()
+
+}
+
+// setupDatabase resets the database if reset is true and migrates it
+func setupDatabase(reset bool) {
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s sslmode=disable", host, port, user, password)
+
+	if reset {
+		fmt.Println("DB Reseted.")
+		must(books.Reset("postgres", psqlInfo, dbname))
+	}
+
+	psqlInfo = fmt.Sprintf("%s dbname=%s", psqlInfo, dbname)
+	must(books.Migrate("postgres", psqlInfo))
+}
+
+// setupTestDatabase resets the database and migrates for tests
+func setupTestDatabase(reset bool) {
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s sslmode=disable", host, port, user, password)
+	if reset {
+		must(books.Reset("postgres", psqlInfo, dbnameTest))
+	}
+
+	psqlInfo = fmt.Sprintf("%s dbname=%s", psqlInfo, dbnameTest)
+	must(books.Migrate("postgres", psqlInfo))
+}
 
 // setupRouter creates the routing of the Books API
 func setupRouter() *gin.Engine {
@@ -43,26 +81,6 @@ func setupRouter() *gin.Engine {
 	router.GET("/books/author/:author", routers.FindAuthor)
 	return router
 
-}
-
-func main() {
-	reset := flag.Bool("reset", false, "true if you want to reset your database")
-	flag.Parse()
-
-	// Database
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s sslmode=disable", host, port, user, password)
-
-	if *reset {
-		fmt.Println("DB Reseted.")
-		must(books.Reset("postgres", psqlInfo, dbname))
-	}
-
-	psqlInfo = fmt.Sprintf("%s dbname=%s", psqlInfo, dbname)
-	must(books.Migrate("postgres", psqlInfo))
-
-	// RestAPI
-	r := setupRouter()
-	r.Run()
 }
 
 func must(err error) {
