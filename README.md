@@ -26,11 +26,9 @@ Things that I plan to implement on the future.
 - [x] Query all books
 - [x] Query book id
 - [x] Query selected author
-- [ ] Query Book title
 - [x] Create a frontend
     - [x] Show all books
-    - [ ] Create a book
     - [x] Find a book using the ID    
     - [x] Find a book by the Author
-
+- [x] Create tests
 - [ ] Deploy on Heroku
