@@ -32,7 +32,7 @@ func TestHomepageStatus(t *testing.T) {
 
 func TestBooksStatus(t *testing.T) {
 	// Setup database and Grab our router
-	setupTestDatabase(false)
+	setupDatabase(false)
 	router := setupRouter()
 
 	// Perform a GET request with that handler.
@@ -71,7 +71,7 @@ func TestPOSTBook(t *testing.T) {
 
 func TestBookSearch(t *testing.T) {
 	// Setup database and Grab our router
-	setupTestDatabase(false)
+	setupDatabase(false)
 	router := setupRouter()
 
 	// Perform a GET request with that handler.
@@ -90,7 +90,7 @@ func TestBookSearch(t *testing.T) {
 
 func TestAuthorSearch(t *testing.T) {
 	// Setup database and Grab our router
-	setupTestDatabase(false)
+	setupDatabase(false)
 	router := setupRouter()
 
 	// Perform a GET request with that handler.

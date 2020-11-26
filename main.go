@@ -4,19 +4,13 @@ import (
 	"flag"
 	"fmt"
 	"net/http"
+	"os"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	"github.com/nahumsa/BooksAPI/books"
 	"github.com/nahumsa/BooksAPI/routers"
-)
-
-const (
-	host       = "localhost"
-	port       = 5432
-	user       = "postgres"
-	password   = "7894561230"
-	dbname     = "books"
-	dbnameTest = "test"
 )
 
 func main() {
@@ -29,11 +23,17 @@ func main() {
 	r := setupRouter()
 
 	r.Run()
-
 }
 
 // setupDatabase resets the database if reset is true and migrates it
 func setupDatabase(reset bool) {
+
+	godotenv.Load()
+	host := os.Getenv("DB_HOST")
+	port, _ := strconv.Atoi(os.Getenv("DB_PORT"))
+	user := os.Getenv("DB_USER")
+	password := os.Getenv("DB_PASSWORD")
+	dbname := os.Getenv("DBNAME")
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s sslmode=disable", host, port, user, password)
 
 	if reset {
@@ -47,6 +47,13 @@ func setupDatabase(reset bool) {
 
 // setupTestDatabase resets the database and migrates for tests
 func setupTestDatabase(reset bool) {
+	godotenv.Load()
+	host := os.Getenv("DB_HOST")
+	port, _ := strconv.Atoi(os.Getenv("DB_PORT"))
+	user := os.Getenv("DB_USER")
+	password := os.Getenv("DB_PASSWORD")
+	dbnameTest := os.Getenv("DBNAMETEST")
+
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s sslmode=disable", host, port, user, password)
 	if reset {
 		must(books.Reset("postgres", psqlInfo, dbnameTest))

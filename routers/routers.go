@@ -3,23 +3,33 @@ package routers
 import (
 	"fmt"
 	"net/http"
+	"os"
+	"strconv"
 
+	"github.com/joho/godotenv"
 	"github.com/nahumsa/BooksAPI/books"
 
 	"github.com/gin-gonic/gin"
 )
 
-const (
-	host     = "localhost"
-	port     = 5432
-	user     = "postgres"
-	password = "7894561230"
-	dbname   = "books"
-)
+// const (
+// 	host       = "localhost"
+// 	port       = 5432
+// 	user       = "postgres"
+// 	password   = "7894561230"
+// 	dbname     = "books"
+// 	dbnameTest = "test"
+// )
 
 // dbInfo return a string that gives a route
 // for the database.
 func dbInfo() string {
+	godotenv.Load()
+	host := os.Getenv("DB_HOST")
+	port, _ := strconv.Atoi(os.Getenv("DB_PORT"))
+	user := os.Getenv("DB_USER")
+	password := os.Getenv("DB_PASSWORD")
+	dbname := os.Getenv("DBNAME")
 	PsqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s sslmode=disable", host, port, user, password)
 	PsqlInfo = fmt.Sprintf("%s dbname=%s", PsqlInfo, dbname)
 	return PsqlInfo
@@ -130,19 +140,4 @@ func FindAuthor(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": b})
-}
-
-// HomePage displays the home
-func HomePage(c *gin.Context) {
-	// Call the HTML method of the Context to render a template
-	c.HTML(
-		// Set the HTTP status to 200 (OK)
-		http.StatusOK,
-		// Use the index.html template
-		"index.html",
-		// Pass the data that the page uses (in this case, 'title')
-		gin.H{
-			"title": "Books API",
-		},
-	)
 }
